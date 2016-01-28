@@ -4,7 +4,7 @@ class Edge {
 public:
 	Edge();
 	Edge(int number,int position,char weight);
-
+	friend class AdjacentTable;
 private:
 	int		number_;
 	int		position_;
