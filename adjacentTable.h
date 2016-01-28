@@ -18,7 +18,7 @@ public:
 
 private:
 	Vertex*		startVertex_;
-	int		vertexNum_;
-	int		edgeNum_;
+	int		vertexNums_;
+	int		edgeNums_;
 };
 #endif 
