@@ -5,7 +5,7 @@ class Vertex {
 public:
 	Vertex();
 	Vertex(int number);
-	~Vertex();
+
 private:
 	int		number_;
 	Vertex*		next_;
