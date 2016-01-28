@@ -4,7 +4,6 @@ class Edge {
 public:
 	Edge();
 	Edge(int number,int position,char weight);
-	~Edge();
 
 private:
 	int		number_;
