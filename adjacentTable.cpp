@@ -2,12 +2,27 @@
 
 AdjacentTable::AdjacentTable()
 {
-
+	vertexNums_ = 1;
+	edgeNums_ = 0;
+	startVertex_ = new Vertex();
 }
 
 AdjacentTable::~AdjacentTable()
 {
-
+	Vertex* p;
+	Edge*   q;
+	p = startVertex_;
+	for (int i = 0; i != vertexNums_; i++)
+	{
+		q = p->out_;
+		while (q)
+		{
+			p->out_ = q->link_;
+			delete q;
+			q = p->out_;
+		}
+		p = p->next_;
+	}
 }
 
 int AdjacentTable::getValueByPos(int position) const 
