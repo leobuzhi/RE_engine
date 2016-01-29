@@ -6,8 +6,8 @@ public:
 	Edge(int number,int position,char weight);
 	friend class AdjacentTable;
 private:
-	int		number_;
-	int		position_;
+	int		position1_;
+	int		position2_;
 	char		weight_;
 	Edge*		link_;
 };
