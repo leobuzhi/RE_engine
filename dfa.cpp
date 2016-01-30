@@ -15,6 +15,10 @@ DFA::DFA()
 
 DFA::~DFA()
 {
+	delete regex_;
+	delete regexPost_;
+	NFATable->clear();
+	DFATable->clear();
 }
 
 void DFA::inputRegex()
