@@ -26,3 +26,16 @@ void DFA::inputRegex()
 	std::cout << "Input regex expression:" << std::endl;
 	std::cin >> regex_;
 }
+
+int DFA::precedence(char symbol)
+{
+	int priority_;
+	switch (symbol)
+	{
+	case '|':priority_ = 1; break;
+	case '.':priority_ = 2; break;
+	case '*':priority_ = 3; break;
+	default:priority_ = 0; break;
+	}
+	return priority_;
+}
