@@ -51,3 +51,7 @@ void DFA::regexToPost()
 void DFA::match()
 {
 }
+
+void DFA::regexToPost()
+{
+}
