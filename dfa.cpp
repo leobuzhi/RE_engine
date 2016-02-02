@@ -43,3 +43,7 @@ int DFA::precedence(char symbol)
 void DFA::insertNode()
 {
 }
+
+void DFA::regexToPost()
+{
+}
