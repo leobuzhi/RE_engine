@@ -47,3 +47,7 @@ void DFA::insertNode()
 void DFA::regexToPost()
 {
 }
+
+void DFA::match()
+{
+}
