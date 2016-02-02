@@ -39,3 +39,7 @@ int DFA::precedence(char symbol)
 	}
 	return priority_;
 }
+
+void DFA::insertNode()
+{
+}
