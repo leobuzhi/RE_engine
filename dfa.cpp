@@ -42,6 +42,26 @@ int DFA::precedence(char symbol)
 
 void DFA::insertNode()
 {
+	int i = 0, j, len;
+	len = strlen(regex_);
+	int length = len;
+	len--;
+	while (len--)
+	{
+		if(((regex_[i]!='('&&regex_[i]!='.'&&regex_[i]!='|')||
+			regex_[i]==')'||regex_[i]=='*')&&
+			(regex_[i+1]!=')'&&regex_[i+1]!='.'&&regex_[i+1]!='|'&&regex_[i+1]!='*'))
+		{
+			for (j = length; j > i; j--)
+			{
+				regex_[j + 1] = regex_[j];
+			}
+			regex_[i + 1] = '.';
+			length++;
+			regex_[length] = '\0';
+			i++;
+		}
+	}
 }
 
 void DFA::regexToPost()
