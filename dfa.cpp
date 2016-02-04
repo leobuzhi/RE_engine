@@ -1,6 +1,7 @@
 #include"dfa.h"
 #include<string>
 #include<iostream>
+#include<stack>
 DFA::DFA()
 {
 	regex_ = new char[256];
@@ -66,7 +67,67 @@ void DFA::insertNode()
 
 void DFA::regexToPost()
 {
+	int i = 0, j = 0;
+	char ch, cl;
+	strcpy(regexPost_, "\0");
+	std::stack<char> *value = new std::stack<char>();
+	while (!value->empty())
+	{
+		value->pop();
+	}
+	ch = regex_[i];
+	value->push('#');
+	while (ch != '\0')
+	{
+		if (ch == '(')
+		{
+			value->push(ch);
+			ch = regex_[++i];
+		}
+		else if (ch == ')')
+		{
+			while (value->top() != '(')
+			{
+				regexPost_[j++] = value->top();
+				value->pop();
+			}
+			value->pop();
+			ch = regex_[++i];
+		}
+		else if (ch=='|'||ch=='*'||ch=='.')
+		{
+			cl = value->top();
+			while (precedence(cl) >= precedence(ch))
+			{
+				regexPost_[j++] = cl;
+				value->pop();
+				cl = value->top();
+			}
+			value->push(ch);
+			ch = regex_[++i];
+		}
+		else 
+		{
+			regexPost_[j++] = ch;
+			ch = regex_[++i];
+		}
+	}
+	ch = value->top();
+	value->pop();
+	while (ch == '|' || ch == '*' || ch == '.')
+	{
+		regexPost_[j++] = ch;
+		ch = value->top();
+		value->pop();
+	}
+	regexPost_[j] = '\0';
+	while (!value->empty())
+	{
+		value->pop();
+	}
+	std::cout << "Transform regexPost :" << regexPost_ << std::endl << "String length :" << strlen(regexPost_) << std::endl;
 }
+
 
 void DFA::match()
 {
