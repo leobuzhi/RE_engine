@@ -6,5 +6,6 @@ int main()
 	dfa_test.inputRegex();
 	dfa_test.insertNode();
 	dfa_test.regexToPost();
+	dfa_test.getEdgeNumber();
 	return 0;
 }
