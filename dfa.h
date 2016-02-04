@@ -15,7 +15,6 @@ public:
 	void			getEdgeNumber();
 	void			thompson();
 	void			NFAToDFA();
-	void			hopcroft();
 	void			getAcceptState();
 	int			precedence(char symbol);
 	int			judgeVertex(char ch);
