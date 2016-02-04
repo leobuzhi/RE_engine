@@ -127,12 +127,43 @@ void DFA::regexToPost()
 	}
 	std::cout << "Transform regexPost :" << regexPost_ << std::endl << "String length :" << strlen(regexPost_) << std::endl;
 }
-
+void DFA::getEdgeNumber()
+{
+	int i = 0, j;
+	edgeNumber_ = 0;
+	while (regexPost_[i] != '\0')
+	{
+		if (regexPost_[i] == '.' || regexPost_[i] == '|' || regexPost_[i] == '*')
+		{
+			i++;
+			continue;
+		}
+		for (j = 0; j != edgeNumber_; j++)
+		{
+			if (regexPost_[i] == edgeNum_[j])
+			{
+				break;
+			}
+		}
+		if (j == edgeNumber_)
+		{
+			edgeNum_[edgeNumber_] = regexPost_[i];
+			edgeNumber_++;
+		}
+		i++;
+	}
+	edgeNum_[edgeNumber_] = '\0';
+	std::cout << "get char list:" << std::endl;
+	for (i = 0; i != edgeNumber_; i++)
+	{
+		std::cout << edgeNum_[i] << " ";
+	}
+	std::cout << std::endl;
+	std::cout << "char numbers: " << edgeNumber_ << std::endl;
+}
 
 void DFA::match()
 {
 }
 
-void DFA::regexToPost()
-{
-}
+
