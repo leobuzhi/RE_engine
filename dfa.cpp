@@ -162,6 +162,98 @@ void DFA::getEdgeNumber()
 	std::cout << "char numbers: " << edgeNumber_ << std::endl;
 }
 
+void DFA::thompson()
+{
+	int i, j;
+	char ch;
+	int s1, s2;
+	std::stack<int> states;
+	while (!states.empty())
+	{
+		states.pop();
+	}
+	if (strlen(regexPost_) < 1)
+	{
+		std::cout << "No regex expression find." << std::endl;
+		exit(1);
+	}
+	i = 1, j = 0;
+	ch = regexPost_[j];
+	while (ch != '\0')
+	{
+		if (ch == '.')
+		{
+			s2 = states.top();
+			states.pop();
+			int value1 = states.top();
+			states.pop();
+			int value2 = states.top();
+			states.pop();
+			NFATable->insertEdgeByValue(value2, value1, '~');
+			states.push(s1);
+			states.push(s2);
+		}
+		else if (ch == '*')
+		{
+			s2 = states.top();
+			states.pop();
+			s1 = states.top();
+			states.pop();
+			NFATable->insertVertex(i);
+			NFATable->insertVertex(i+1);
+			NFATable->insertEdgeByValue(i, i + 1, '~');
+			NFATable->insertEdgeByValue(s2, s1, '~');
+			NFATable->insertEdgeByValue(i, s1, '~');
+			NFATable->insertEdgeByValue(s2, i + 1, '~');
+			s1 = i;
+			s2 = i + 1;
+			states.push(s1);
+			states.push(s2);
+			i += 2;
+		}
+		else if (ch == '|')
+		{
+			s2 = states.top();
+			states.pop();
+			int value1 = states.top();
+			states.pop();
+			int value2 = states.top();
+			states.pop();
+			s1 = states.top();
+			states.pop();
+			NFATable->insertVertex(i);
+			NFATable->insertVertex(i + 1);
+			NFATable->insertEdgeByValue(i, s1, '~');
+			NFATable->insertEdgeByValue(i, value1, '~');
+			NFATable->insertEdgeByValue(value2, i + 1, '~');
+			NFATable->insertEdgeByValue(s2, i + 1, '~');
+			s1 = i;
+			s2 = i + 1;
+			states.push(s1);
+			states.push(s2);
+			i += 2;
+		}
+		else
+		{
+			NFATable->insertVertex(i);
+			NFATable->insertVertex(i + 1);
+			NFATable->insertEdgeByValue(i, i + 1, ch);
+			s1 = i;
+			s2 = i + 1;
+			states.push(s1);
+			states.push(s2);
+			i += 2;
+		}
+		j++;
+		ch = regexPost_[j];
+	}
+	s2 = states.top();
+	states.pop();
+	s1 = states.top();
+	states.pop();
+	NFAStatesNumber_ = s2 + 1;
+}
+
 void DFA::match()
 {
 }
