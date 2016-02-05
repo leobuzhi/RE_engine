@@ -7,5 +7,6 @@ int main()
 	dfa_test.insertNode();
 	dfa_test.regexToPost();
 	dfa_test.getEdgeNumber();
+	dfa_test.thompson();
 	return 0;
 }
