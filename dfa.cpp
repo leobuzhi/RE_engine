@@ -286,6 +286,14 @@ int judge(int states, int jud[][100])
 	return states;
 }
 
+void setAcceptStates(int *states)
+{
+	for (int i = 0; i <= 500; i++)
+	{
+		states[i] = 0;
+	}
+}
+
 void DFA::match()
 {
 }
