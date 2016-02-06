@@ -254,6 +254,17 @@ void DFA::thompson()
 	NFAStatesNumber_ = s2 + 1;
 }
 
+void initNFANode(int(*a)[100])
+{
+	for (int i = 0; i <= 100; i++)
+	{
+		for (int j = 0; j <= 100; j++)
+		{
+			a[i][j] = 0;
+		}
+	}
+}
+
 void DFA::match()
 {
 }
