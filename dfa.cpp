@@ -70,40 +70,40 @@ void DFA::regexToPost()
 	int i = 0, j = 0;
 	char ch, cl;
 	strcpy(regexPost_, "\0");
-	std::stack<char> *value = new std::stack<char>();
-	while (!value->empty())
+	std::stack<char>  value;
+	while (!value.empty())
 	{
-		value->pop();
+		value.pop();
 	}
 	ch = regex_[i];
-	value->push('#');
+	value.push('#');
 	while (ch != '\0')
 	{
 		if (ch == '(')
 		{
-			value->push(ch);
+			value.push(ch);
 			ch = regex_[++i];
 		}
 		else if (ch == ')')
 		{
-			while (value->top() != '(')
+			while (value.top() != '(')
 			{
-				regexPost_[j++] = value->top();
-				value->pop();
+				regexPost_[j++] = value.top();
+				value.pop();
 			}
-			value->pop();
+			value.pop();
 			ch = regex_[++i];
 		}
 		else if (ch=='|'||ch=='*'||ch=='.')
 		{
-			cl = value->top();
+			cl = value.top();
 			while (precedence(cl) >= precedence(ch))
 			{
 				regexPost_[j++] = cl;
-				value->pop();
-				cl = value->top();
+				value.pop();
+				cl = value.top();
 			}
-			value->push(ch);
+			value.push(ch);
 			ch = regex_[++i];
 		}
 		else 
@@ -112,18 +112,18 @@ void DFA::regexToPost()
 			ch = regex_[++i];
 		}
 	}
-	ch = value->top();
-	value->pop();
+	ch = value.top();
+	value.pop();
 	while (ch == '|' || ch == '*' || ch == '.')
 	{
 		regexPost_[j++] = ch;
-		ch = value->top();
-		value->pop();
+		ch = value.top();
+		value.pop();
 	}
 	regexPost_[j] = '\0';
-	while (!value->empty())
+	while (!value.empty())
 	{
-		value->pop();
+		value.pop();
 	}
 	std::cout << "Transform regexPost :" << regexPost_ << std::endl << "String length :" << strlen(regexPost_) << std::endl;
 }
