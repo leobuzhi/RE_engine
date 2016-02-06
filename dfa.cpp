@@ -265,6 +265,27 @@ void initNFANode(int(*a)[100])
 	}
 }
 
+int judge(int states, int jud[][100])
+{
+	int i, j, sum;
+	i = 2;
+	while (jud[i][0])
+	{
+		sum = 0;
+		j = 0;
+		while (jud[i][j])
+		{
+			if (jud[states][j] == jud[i][j])
+				sum++;
+			j++;
+		}
+		if (sum == j)
+			return i;
+		i++;
+	}
+	return states;
+}
+
 void DFA::match()
 {
 }
