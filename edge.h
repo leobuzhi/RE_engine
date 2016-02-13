@@ -5,6 +5,7 @@ public:
 	Edge();
 	Edge(int number,int position,char weight);
 	friend class AdjacentTable;
+	friend class DFA;
 private:
 	int		position1_;
 	int		position2_;
