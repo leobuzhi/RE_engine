@@ -6,6 +6,7 @@ public:
 	Vertex();
 	Vertex(int number);
 	friend class AdjacentTable;
+	friend class DFA;
 private:
 	int		number_;
 	Vertex*		next_;
