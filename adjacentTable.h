@@ -3,6 +3,7 @@
 #include "vertex.h"
 class AdjacentTable {
 public:
+	friend class DFA;
 	AdjacentTable();
 	~AdjacentTable();
 	void		setValue(int value,int pos);
