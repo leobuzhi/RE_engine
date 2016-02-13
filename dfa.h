@@ -11,7 +11,6 @@ public:
 	void			regexToPost();
 	void			match();
 	void			inputString();
-	void			setDFAStates();
 	void			getEdgeNumber();
 	void			thompson();
 	void			NFAToDFA();
