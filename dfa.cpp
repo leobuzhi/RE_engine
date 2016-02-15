@@ -373,9 +373,132 @@ void DFA::NFAToDFA()
 		DFATable->insertVertex(states);
 		DFATable->insertEdgeByValue(1, states, edgeNum_[i]);
 	}
+	
+	while (!DFAStates.empty())
+	{
+		DFAStatesNumber_ = DFAStates.top();
+		DFAStates.pop();
+		for (int j = 0; j != edgeNumber_; j++)
+		{
+			int i = 0;
+			char weight = edgeNum_[j];
+			while (allNFANodes[NFAStatesNumber_][i] != 0)
+			{
+				int vertexNode[1001] = { 0 };
+				Vertex *p = new Vertex;
+				p = NFATable->startVertex_;
+				for (int k = 0; k != allNFANodes[NFAStatesNumber_][i]; k++)
+					p = p->next_;
+				i++;
+				if (p->out_ == nullptr)
+					continue;
+				if (p->out_->link_ == nullptr)
+				{
+					if (p->out_->weight_ == weight&&vertexNode[p->out_->position2_] == 0)
+						NFANode.push(p->out_->position2_);
+					vertexNode[p->out_->position2_] = 1;
+				}
+				if (p->out_->link_ != nullptr)
+				{
+					if (p->out_->weight_ == weight&&vertexNode[p->out_->position2_] == 0)
+						NFANode.push(p->out_->position2_);
+					Edge *link = p->out_->link_;
+					while (link != nullptr)
+					{
+						if (p->out_->weight_ == weight&&vertexNode[p->out_->position2_] == 0)
+							NFANode.push(p->out_->position2_);
+						vertexNode[p->out_->position2_] = 1;
+						link = link->link_;
+					}
+				}
+				if (NFANode.empty())
+					continue;
+				states++;
+				pointer = 0;
+				while (!NFANode.empty())
+				{
+					int top = NFANode.top();
+					NFANode.pop();
+					allNFANodes[states][pointer] = top;
+					pointer++;
+					p = NFATable->startVertex_;
+					for (int j = 0; j != top; j++)
+						p = p->next_;
+					if (p->out_&&p->out_->link_ == nullptr)
+					{
+						if (p->out_->weight_ == '~'&&vertexNode[p->out_->position2_] == 0)
+							NFANode.push(p->out_->position2_);
+						vertexNode[p->out_->position2_] = 1;
+					}
+					else if (p->out_)
+					{
+						if (p->out_->weight_ == '~'&&vertexNode[p->out_->position2_] == 0)
+							NFANode.push(p->out_->position2_);
+						vertexNode[p->out_->position2_] = 1;
+						Edge *linkNode = p->out_->link_;
+						while (linkNode != nullptr)
+						{
+							if (linkNode->weight_ == '~'&&vertexNode[linkNode->position2_] == 0)
+								NFANode.push(linkNode->position2_);
+							vertexNode[p->out_->position2_] = 1;
+							linkNode = linkNode->link_;
+						}
+					}
+				}
+				int sign = states;
+				states = judge(states, allNFANodes);
+				if (sign == states)
+				{
+					DFATable->insertVertex(states);
+					DFAStates.push(states);
+				}
+				DFATable->insertEdgeByValue(NFAStatesNumber_, states, edgeNum_[j]);
+				states = sign;
+			}
+		}
+	}
+	NFAStatesNumber_ = states;
+	DFAStatesNumber_ = DFATable->vertexNums_ - 1;
 
+	DFATable->startVertex_ = DFATable->startVertex_->next_;
+	NFATable->startVertex_ = NFATable->startVertex_->next_;
 
+	setAcceptStates(NFAAcceptStates);
+	setAcceptStates(DFAAcceptStates);
 
+	Vertex *p = NFATable->startVertex_;
+	int vertexNums = NFATable->vertexNums_;
+	for (int i = 1; i != vertexNums; i++)
+	{
+		if (p->out_ == nullptr)
+			NFAAcceptStates[i] = i;
+		p = p->next_;
+	}
+	for (int i = 2; i <= states; i++)
+	{
+		int vertexNums = NFATable->vertexNums_;
+		for (int j = 0; j != vertexNums; j++)
+		{
+			int k = 0;
+			while (allNFANodes[i][k] != 0)
+			{
+				for (int n = 0; vertexNums; n++)
+				{
+					if (NFAAcceptStates[n] == allNFANodes[i][k])
+						NFAAcceptStates[i] = i;
+				}
+				k++;
+			}
+		}
+	}
+	int tag;
+	for (int i = 0; i <= states; i++)
+	{
+		if (DFAAcceptStates[i] != 0)
+			tag = judge(DFAAcceptStates[i], allNFANodes);
+		if (tag != DFAAcceptStates[i])
+			DFAAcceptStates[i] = 0;
+	}
 }
 
 void DFA::match()
