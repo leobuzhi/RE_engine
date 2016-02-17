@@ -8,5 +8,7 @@ int main()
 	dfa_test.regexToPost();
 	dfa_test.getEdgeNumber();
 	dfa_test.thompson();
+	dfa_test.inputString();
+	dfa_test.match();
 	return 0;
 }
