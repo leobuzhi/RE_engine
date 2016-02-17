@@ -101,7 +101,7 @@ void AdjacentTable::insertVertex(int value)
 	}
 	Vertex *p = startVertex_;
 	while (p->next_)
-		p->next_;
+		p=p->next_;
 	Vertex *addVertex = new Vertex(value);
 	p->next_ = addVertex;
 	vertexNums_++;
