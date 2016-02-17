@@ -62,6 +62,7 @@ void DFA::insertNode()
 			regex_[length] = '\0';
 			i++;
 		}
+		i++;
 	}
 }
 
