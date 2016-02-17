@@ -502,8 +502,111 @@ void DFA::NFAToDFA()
 	}
 }
 
-void DFA::match()
+void DFA::inputString()
 {
+	std::cout << "Input match string:" << std::endl;
+	std::cin >> input_;
 }
 
-
+void DFA::match()
+{
+	int position = 0, sign = 0;
+	matchout_ = input_;
+	Vertex *p = DFATable->startVertex_;
+	int stringLen = input_.length();
+	for (int i = 0; i != stringLen; i++)
+	{
+		if (p->out_ == nullptr)
+		{
+			p = DFATable->startVertex_;
+			continue;
+		}
+		if (p->out_->link_ == nullptr)
+		{
+			if (p->out_->weight_ == input_[i])
+			{
+				position = p->out_->position2_;
+				p = DFATable->startVertex_;
+				for (int j = 1; j != position; j++)
+					p = p->next_;
+				if (DFAAcceptStates[position] == position)
+				{
+					for (int k = sign; k <= i; k++)
+						matchout_[k] = input_[k];
+					sign = i + 1;
+				}
+			}
+			else
+			{
+				if (p == DFATable->startVertex_)
+				{
+					for (int j = sign; j <= i; j++)
+						matchout_[j] = '#';
+					p = DFATable->startVertex_;
+					sign = i + 1;
+				}
+				else
+				{
+					for (int j = sign; j < i; j++)
+						matchout_[j] = '#';
+					p = DFATable->startVertex_;
+					sign = i;
+					i--;
+				}
+			}
+		}
+		else
+		{
+			if (p->out_->weight_ == input_[i])
+			{
+				matchout_[i] = input_[i];
+				position = p->out_->position2_;
+				p = DFATable->startVertex_;
+				for (int j = 1; j < position; j++)
+					p = p->next_;
+				if (DFAAcceptStates[position] == position)
+				{
+					for (int k = sign; k <= i; k++)
+						matchout_[k] = input_[k];
+					sign = i + 1;
+				}
+				continue;
+			}
+			Edge *link = new Edge;
+			link = p->out_->link_;
+			while (link != nullptr)
+			{
+				if (link->weight_ == input_[i])
+				{
+					matchout_[i] = input_[i];
+					position = link->position2_;
+					p = DFATable->startVertex_;
+					for (int j = 1; j != position; j++)
+						p = p->next_;
+					if (DFAAcceptStates[position] == position)
+					{
+						for (int k = sign; k <= i; k++)
+							matchout_[k] = input_[k];
+						sign = i + 1;
+					}
+					break;
+				}
+				else
+					link = link->link_;
+			}
+			if (link == nullptr)
+			{
+				p = DFATable->startVertex_;
+				for (int k = sign; k != i; k++)
+					matchout_[k] = '#';
+				sign = i;
+				i--;
+			}
+		}
+	}
+	for (int i = sign; i != stringLen; i++)
+		matchout_[i] = '#';
+	std::cout << "Regex expression:		 " << regex_ << std::endl;
+	std::cout << "Input match string:    " << input_ << std::endl;
+	std::cout << "Matchout:              " << matchout_ << std::endl;
+}
