@@ -483,7 +483,7 @@ void DFA::NFAToDFA()
 			int k = 0;
 			while (allNFANodes[i][k] != 0)
 			{
-				for (int n = 0; vertexNums; n++)
+				for (int n = 0; n <= vertexNums; n++)
 				{
 					if (NFAAcceptStates[n] == allNFANodes[i][k])
 						NFAAcceptStates[i] = i;
