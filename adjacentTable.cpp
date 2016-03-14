@@ -1,5 +1,5 @@
 #include"adjacentTable.h"
-
+#include<iostream>
 AdjacentTable::AdjacentTable()
 {
 	vertexNums_ = 1;
