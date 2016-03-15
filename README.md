@@ -5,24 +5,24 @@ RE_engine
 <p>Author:  leobuzhi</p>
 <p>Email:   leobuzhi@gmail.com</p>
 <p>A simple Regular Expression engine</p>
-<p>OS:					<br/>
-	Linux,*nix</p>			<br/>
-<p>Process:				<br/>
-	Re->NFA->DFA</p>		<br/>
-<p>Algorithm:				<br/>
-	Thompson algorithm		<br/>
-	Re->NFA				<br/>
-	NFA->DFA			<br/>
-	Subset Construction Method</p>	<br/>
-<p>Example:				<br/>
-	re:ab(b|c)a*			<br/>
-	string:dabbd success  		<br/>
-	result:abb   success		<br/>
-	string:qabcaaaaa		<br/>
-	result:abb   success		<br/>
-	string:sabaaaaa			<br/>
-	result:      failure</p>	<br/>
-<p>Lincense:				<br/>
+<p>OS:					
+	Linux,*nix</p>			
+<p>Process:				
+	Re->NFA->DFA</p>		
+<p>Algorithm:
+	Re->NFA	
+	Thompson algorithm		
+	NFA->DFA			
+	Subset Construction Method</p>	
+<p>Example:				
+	re:ab(b|c)a*			
+	string:dabbd success  		
+	result:abb   success		
+	string:qabcaaaaa		
+	result:abb   success		
+	string:sabaaaaa			
+	result:      failure</p>	
+<p>Lincense:				
 	MIT</p>
 
 
