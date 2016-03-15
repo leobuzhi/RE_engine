@@ -1,19 +1,11 @@
 RE_engine
-
-
-
-Author:  leobuzhi
-Email:   leobuzhi@gmail.com
 A simple Regular Expression engine
-OS:					
-	Linux,*nix
-Process:				
-	Re->NFA->DFA
-Algorithm:
-	Re->NFA	
-	Thompson algorithm		
-	NFA->DFA			
-	Subset Construction Method
+OS:Linux,*nix
+Author:leobuzhi
+Email:leobuzhi@gmail.com
+Process:Re->NFA->DFA
+Algorithm:Re->NFA:Thompson algorithm
+	NFA->DFA:Subset Construction Method
 Example:				
 	re:ab(b|c)a*			
 	string:dabbd success  		
@@ -22,6 +14,5 @@ Example:
 	result:abcaaaaa   success		
 	string:sabaaaaa			
 	result:      failure
-Lincense:				
-	MIT
+Lincense:MIT
 
