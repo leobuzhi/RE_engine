@@ -190,6 +190,8 @@ void DFA::thompson()
 			states.pop();
 			int value2 = states.top();
 			states.pop();
+			s1 = states.top();
+			states.pop();
 			NFATable->insertEdgeByValue(value2, value1, '~');
 			states.push(s1);
 			states.push(s2);
@@ -295,6 +297,7 @@ void setAcceptStates(int *states)
 	}
 }
 
+int allNFANodes[100][100];
 void DFA::NFAToDFA()
 {
 	int states;
@@ -302,7 +305,6 @@ void DFA::NFAToDFA()
 	int vertexNode[1001] = { 0 };
 	std::stack<int> DFAStates;
 	std::stack<int> NFANode;
-	int allNFANodes[100][100];
 	initNFANode(allNFANodes);
 	int pointer = 0;
 	int edgeNums = NFATable->edgeNums_;
@@ -377,7 +379,7 @@ void DFA::NFAToDFA()
 	
 	while (!DFAStates.empty())
 	{
-		DFAStatesNumber_ = DFAStates.top();
+		NFAStatesNumber_ = DFAStates.top();
 		DFAStates.pop();
 		for (int j = 0; j != edgeNumber_; j++)
 		{
@@ -403,6 +405,7 @@ void DFA::NFAToDFA()
 				{
 					if (p->out_->weight_ == weight&&vertexNode[p->out_->position2_] == 0)
 						NFANode.push(p->out_->position2_);
+					vertexNode[p->out_->position2_] = 1;
 					Edge *link = p->out_->link_;
 					while (link != nullptr)
 					{
@@ -478,7 +481,7 @@ void DFA::NFAToDFA()
 	for (int i = 2; i <= states; i++)
 	{
 		int vertexNums = NFATable->vertexNums_;
-		for (int j = 0; j != vertexNums; j++)
+		for (int j = 0; j <= vertexNums; j++)
 		{
 			int k = 0;
 			while (allNFANodes[i][k] != 0)
@@ -486,7 +489,7 @@ void DFA::NFAToDFA()
 				for (int n = 0; n <= vertexNums; n++)
 				{
 					if (NFAAcceptStates[n] == allNFANodes[i][k])
-						NFAAcceptStates[i] = i;
+						DFAAcceptStates[i] = i;
 				}
 				k++;
 			}
